@@ -3,7 +3,10 @@
 #include "disemvowel.h"
 
 TEST(Disemvowel, HandleEmptyString) {
-  ASSERT_STREQ("", disemvowel((char*) ""));
+  char *clearleak = disemvowel((char*) "");
+  ASSERT_STREQ("", clearleak);
+  free(clearleak);
+
 }
 
 TEST(Disemvowel, HandleNoVowels) {
@@ -20,7 +23,7 @@ TEST(Disemvowel, HandleMorrisMinnesota) {
 }
 
 TEST(Disemvowel, HandlePunctuation) {
-  ASSERT_STREQ("n (nxplnd) lphnt!", 
+  ASSERT_STREQ("n (nxplnd) lphnt!",
 		      disemvowel((char*) "An (Unexplained) Elephant!"));
 }
 
@@ -38,7 +41,7 @@ TEST(Disemvowel, HandleLongString) {
     str[i] = 'a';
   }
   str[size-1] = '\0';
-  
+
   ASSERT_STREQ("xyz", disemvowel(str));
 
   free(str);
