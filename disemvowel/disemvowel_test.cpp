@@ -18,7 +18,7 @@ TEST(Disemvowel, HandleNoVowels) {
   str[1] = 'q';
   str[2] = 'r';
   str[3] = 's';
-  str[3] = 't';
+  str[4] = 't';
   str[size-1] = '\0';
   ASSERT_STREQ("pqrst", clearleak);
 
