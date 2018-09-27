@@ -3,28 +3,124 @@
 #include "disemvowel.h"
 
 TEST(Disemvowel, HandleEmptyString) {
-  char *clearleak = disemvowel((char*) "");
-  ASSERT_STREQ("", clearleak);
-  free(clearleak);
-
+  ASSERT_STREQ("", disemvowel((char*) ""));
 }
 
 TEST(Disemvowel, HandleNoVowels) {
-  ASSERT_STREQ("pqrst", disemvowel((char*) "pqrst"));
+  char *str;
+  int size;
+
+
+  size = 50000;
+  str = (char*) calloc(size, sizeof(char));
+  char *clearleak = disemvowel(str);
+  str[0] = 'p';
+  str[1] = 'q';
+  str[2] = 'r';
+  str[3] = 's';
+  str[3] = 't';
+  str[size-1] = '\0';
+  ASSERT_STREQ("pqrst", clearleak);
+
+  free(clearleak);
 }
 
 TEST(Disemvowel, HandleOnlyVowels) {
-  ASSERT_STREQ("", disemvowel((char*) "aeiouAEIOUOIEAuoiea"));
+  char *str;
+  int size;
+
+
+  size = 50000;
+  str = (char*) calloc(size, sizeof(char));
+  char *clearleak = disemvowel(str);
+  str[0] = 'a';
+  str[1] = 'e';
+  str[2] = 'i';
+  str[3] = 'o';
+  str[4] = 'u';
+  str[5] = 'A';
+  str[6] = 'E';
+  str[7] = 'I';
+  str[8] = 'O';
+  str[9] = 'U';
+  str[10] = 'A';
+  str[11] = 'u';
+  str[12] = 'o';
+  str[13] = 'i';
+  str[14] = 'e';
+  str[15] = 'a';
+  str[size-1] = '\0';
+  ASSERT_STREQ("", clearleak);
+
+  free(clearleak);
 }
 
 TEST(Disemvowel, HandleMorrisMinnesota) {
+  char *str;
+  int size;
+
+
+  size = 50000;
+  str = (char*) calloc(size, sizeof(char));
+  char *clearleak = disemvowel(str);
+  str[0] = 'M';
+  str[1] = 'o';
+  str[2] = 'r';
+  str[3] = 'r';
+  str[4] = 'i';
+  str[5] = 's';
+  str[6] = ',';
+  str[7] = 'M';
+  str[8] = 'i';
+  str[9] = 'n';
+  str[10] = 'n';
+  str[11] = 's';
+  str[12] = 'o';
+  str[13] = 't';
+  str[14] = 'a';
+  str[size-1] = '\0';
+
+
   ASSERT_STREQ("Mrrs, Mnnst",
-		      disemvowel((char*) "Morris, Minnesota"));
+		      clearleak);
+
+  free(clearleak);
 }
 
 TEST(Disemvowel, HandlePunctuation) {
+  char *str;
+  int size;
+
+
+  size = 50000;
+  str = (char*) calloc(size, sizeof(char));
+  char *clearleak = disemvowel(str);
+  str[0] = 'A';
+  str[1] = 'n';
+  str[2] = '(';
+  str[3] = 'U';
+  str[4] = 'n';
+  str[5] = 'e';
+  str[6] = 'x';
+  str[7] = 'p';
+  str[8] = 'l';
+  str[9] = 'i';
+  str[10] = 'n';
+  str[11] = 'e';
+  str[12] = 'd';
+  str[13] = ')';
+  str[14] = 'E';
+  str[15] = 'l';
+  str[16] = 'e';
+  str[17] = 'p';
+  str[18] = 'h';
+  str[19] = 'a';
+  str[20] = 'n';
+  str[21] = 't';
+  str[size-1] = '\0';
   ASSERT_STREQ("n (nxplnd) lphnt!",
-		      disemvowel((char*) "An (Unexplained) Elephant!"));
+		      clearleak);
+    free(clearleak);
 }
 
 TEST(Disemvowel, HandleLongString) {
@@ -32,8 +128,10 @@ TEST(Disemvowel, HandleLongString) {
   int size;
   int i;
 
+
   size = 50000;
   str = (char*) calloc(size, sizeof(char));
+  char *clearleak = disemvowel(str);
   str[0] = 'x';
   str[1] = 'y';
   str[2] = 'z';
@@ -42,9 +140,9 @@ TEST(Disemvowel, HandleLongString) {
   }
   str[size-1] = '\0';
 
-  ASSERT_STREQ("xyz", disemvowel(str));
+  ASSERT_STREQ("xyz", clearleak);
 
-  free(str);
+  free(clearleak);
 }
 
 int main(int argc, char *argv[]) {
